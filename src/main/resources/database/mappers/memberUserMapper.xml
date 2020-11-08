@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sub.s1.member.memberUser.MemberUserDAO">
+	
+	<select id="getMemberIdCheck" resultType="MemberUserDTO" parameterType="MemberUserDTO">
+		select id from member where id=#{id}
+	</select>
+
+	<select id="getMemberLogin" parameterType="MemberUserDTO" resultMap="getMemberLoginResult">
+		select M.*
+		from member M
+		where M.id = #{id} and M.pw=#{pw}
+	</select>
+	
+	<resultMap type="MemberUserDTO" id="getMemberLoginResult">
+		<id column="num" property="num"></id>
+		<result column="id" property="id"/>
+		<result column="pw" property="pw"/>
+		<result column="name" property="name"/>
+		<result column="addr1" property="addr1"/>
+		<result column="addr2" property="addr2"/>
+		<result column="addr3" property="addr3"/>
+		<result column="phone" property="phone"/>
+		<result column="email" property="email"/>
+		<result column="point" property="point"/>
+		<result column="regDate" property="regDate"/>
+		<result column="auth" property="auth"/>
+	</resultMap>
+	
+</mapper>
