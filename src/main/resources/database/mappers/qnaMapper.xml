@@ -39,7 +39,6 @@
 			<otherwise>
 				depth
 			</otherwise>
-			
 		</choose>
 		like '%'||#{search}||'%' order by ref desc, depth asc) N) where R between #{startRow} and #{lastRow}
 	</select>
@@ -87,15 +86,23 @@
 		select qna_seq.nextval from dual
 	</select>
 	
+	<select id="getCnt" parameterType="QnaDTO" resultType="Long">
+		select count(*) from qna where ref=#{num}
+	</select>
+	
+	<select id="getPw" parameterType="QnaDTO" resultType="Long">
+		select qnaPw from qna where #{num}=#{ref}
+	</select>
+	
 	<insert id="setInsert" parameterType="QnaDTO">
 		<selectKey keyProperty="num" resultType="Long" order="BEFORE">
 			select qna_seq.nextval from dual
 		</selectKey>
-		insert into qna values(#{num}, #{title}, #{writer}, #{contents}, 123, sysdate, 0, qna_seq.currval, 0)
+		insert into qna values(#{num}, #{title}, #{writer}, #{contents}, #{qnaPw}, sysdate, 0, qna_seq.currval, 0)
 	</insert>
 	
 	<insert id="setReply" parameterType="QnaDTO">
-		insert into qna values(qna_seq.nextval, #{title}, #{writer}, #{contents}, 345, sysdate, 0,
+		insert into qna values(qna_seq.nextval, #{title}, #{writer}, #{contents}, #{qnaPw}, sysdate, 0,
 		 (select ref from qna where num=#{num}),
 		 (select depth+1 from qna where num=#{num}))
 	</insert>

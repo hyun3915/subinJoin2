@@ -34,6 +34,11 @@ public class QnaDAO implements BoardDAO{
 		return sqlSession.update(namespace+"setReplyUpdate", boardDTO);
 	}
 	
+	public long getCnt(BoardDTO boardDTO) throws Exception{
+		return sqlSession.selectOne(namespace+"getCnt", boardDTO);
+	}
+	
+	
 	@Override
 	public int setInsert(BoardDTO boardDTO) throws Exception {
 		// TODO Auto-generated method stub

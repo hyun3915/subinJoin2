@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,6 +24,10 @@
 		padding: 0;
 		font-family: "맑은 고딕", "Nanum Gothic", Verdana, Dotum, AppleGothic, sans-serif;
 		text-decoration: none;
+   }
+   
+   #subject{
+   		cursor: pointer;
    }
    
    .search_container{
@@ -75,7 +80,14 @@
 		border: 1px solid #e8e8e8;
 		color: #353535;
 		font-size: 11px;
-		line-height: 140%;
+		padding: 60px;
+		line-height: 14
+		0%;
+
+	}
+	
+	.table td{
+	height: 30px;
 	}
 	
 	#index {
@@ -87,9 +99,10 @@
 		text-align: center;
 	}
 	
-	#subject{
-		color: #555555;
+	.subject{
 		text-decoration: none;
+		cursor: pointer;
+		color: #555555;
 	}
 	
 	.page{
@@ -135,7 +148,7 @@
         <div class="col-sm-8">
            <form id="searchForm" action="./qnaList">
               <input type="hidden" name="curPage" id="curPage">
-            
+              <input type="hidden" id="${member.auth}" class="admin">
            </form>
         </div>
      </div>
@@ -145,20 +158,30 @@
         <td>NO</td>
         <td>SUBJECT</td>
         <td>NAME</td>
-        <td>DATE</td> 
+        <td>DATE</td>
+        <c:if test="${member.auth==1}">
+        <td>PASSWORD</td>
+        </c:if>
      </tr>
      
      <c:forEach items="${list}" var="dto" varStatus="vs">
       <tr>
-        <td style="text-align: center;" width="80px">${dto.num}</td>
-        <td width="860px"><a id="subject" href ="./qnaSelect?num=${dto.num}">
+      	<c:set var="num" value="${pager.totalCount - ((pager.curPage-1) * 20) - vs.index}"/>
+        <td style="text-align: center;" width="80px">${num}</td>
+        
+        <td width="860px"><a id="${dto.qnaPw}" title="${dto.num}" class="subject">
         <c:catch>
-        <%--jsp 주석--%>
         <c:forEach begin="1" end="${dto.depth}"><img src="../resources/images/index/ico_re.gif"> </c:forEach>
 		</c:catch>
-		${dto.title}</a></td>
-        <td style="text-align: center;" width="100px">${dto.writer}</td>
+		<img src="../resources/images/index/ico_lock.gif"> ${dto.title}</a></td>
+		
+        <td style="text-align: center;" width="100px">${fn:substring(dto.writer,0,1)}****</td>
+        
         <td style="text-align: center;" width="100px">${dto.regDate}</td>
+        
+        <c:if test="${member.auth==1}">
+        <td style="text-align: center;" width="100px">${dto.qnaPw}</td>
+        </c:if>
       </tr>
     </c:forEach>
   
@@ -189,17 +212,38 @@
          <div class="search-form">
             <select id="kind" name="kind">
                <option value="tt">제목</option>
-               <option value="wr">내용</option>
-               <option value="con">글쓴이</option>
+               <option value="con">내용</option>
+               <option value="wr">글쓴이</option>
             </select>
-				<input  id="search_input" type="text" name="search">
-                <button type="submit" class="search-button" >찾기</button>
+				<input id="search_input" type="text" name="search">
+                <button type="submit" class="search-button">찾기</button>
          </div>
 </div>
 </form>
 </div>
 
-
+<script type="text/javascript">
+	
+	$(".subject").click(function(){
+		var checkPw = $(this).attr('id');
+		var adminId = $(".admin").attr('id');
+		var num = $(this).attr('title');
+		
+		if(adminId==1){
+			location.href ="./qnaSelect?num="+num;
+		}else{
+		var pw = prompt('비밀번호 숫자 4자리를 입력하세요.','');
+		
+		if(pw == checkPw){
+			location.href ="./qnaSelect?num="+num;
+		}else{
+			alert("비밀글 비밀번호가 틀립니다.");
+			location.href="./qnaList";
+		}
+	  }
+	});
+	
+</script>
 
 </body>
 </html>

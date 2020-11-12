@@ -148,7 +148,7 @@ function emailCheck(val) {
   	
   	<tr class="group" style="height: 70px;">
   		<td class="leftrow">작성자</td>
-  		<td><input style="height: 40px;" type="text" class="inputTypeText" id="writer" name="writer"></td>
+  		<td><input style="height: 40px;" type="text" readonly="readonly" value="${member.id}" class="inputTypeText" id="writer" name="writer"></td>
   	</tr>
   	
   	<tr class="group">
@@ -174,16 +174,24 @@ function emailCheck(val) {
   		</td>
   	</tr>
   	
+  	<tr class="group" style="height: 70px;">
+  		<td class="leftrow">비밀번호</td>
+  		<td><input style="height: 40px;" type="number" class="inputTypeText" id="qnaPw" name="qnaPw">  (숫자, 4자리)</td>
+  	</tr>
+ 	
   </table>
 
 	<div style="text-align: right;" >
-		<button type="submit" class="btn btn-write" id="write">등록</button> 
-		<button type="submit" class="btn btn-cancel" id="cancel">취소</button>
+		<input type="button" class="btn btn-write" id="write" value="작성">
+		<input type="button" value="취소" class="btn btn-cancel" id="cancel">
 	</div>
 </form>
   </div>
 
 <script type="text/javascript">
+
+var pwCheck =false;
+
 $('#contents').summernote({
 	height:400,
 	callbacks:{
@@ -215,6 +223,30 @@ $('#contents').summernote({
 $('#contents').summernote('code', '※이미 처리된 게시글의 답글은 확인이 어려울 수 있으니 재문의는 꼭 새 게시글 작성으로 부탁드립니다!<br><br>주문번호:<br>성함:<br>연락처:<br>문의해주실 상품명:');
 
 
+$("#write").click(function() {
+	var pwNum = $("#qnaPw").val().length;
+	var email1 = $("#email1").val().length;
+	var email2 = $("#email2").val().length;
+	
+	//유효성 검사
+	if(pwNum==4 && email1!=0 && email2!=0){ //숫자로 입력받은 pw가 4자리일때/email 작성되어있을 때만 submit
+		$("#frm").submit();
+	}else if(pwNum!=4){
+		alert("해당 비밀번호는 사용할 수 없습니다.");
+		$("#qnaPw").focus();
+	}else if(email1==0){
+		alert("이메일을 입력해주세요");
+		$("#email").focus();
+	}else if(email2==0){
+		alert("이메일을 입력해주세요");
+		$("#emai2").focus();
+	}
+	
+ });
+ 
+$("#cancel").click(function() {
+	location.href="./qnaList";
+});
 
 </script>
 

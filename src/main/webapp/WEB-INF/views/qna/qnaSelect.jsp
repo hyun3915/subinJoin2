@@ -130,7 +130,7 @@
 	
 </table>
 
-  <c:if test="${member.auth==1 && dto.depth<1}">
+  <c:if test="${member.auth==1 && dto.depth<1 && cnt==1}">
 	<span class="btn_write">
 	<a href="./qnaReply?num=${dto.num}" class="btn btn-write">답변</a>
 	</span>
@@ -163,7 +163,7 @@
    });
 
    
-   
+
 
 </script>
 

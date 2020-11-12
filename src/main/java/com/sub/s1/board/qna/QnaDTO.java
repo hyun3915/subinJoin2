@@ -4,14 +4,15 @@ import com.sub.s1.board.BoardDTO;
 
 public class QnaDTO extends BoardDTO{
 	
-	private String qnaPw;
+	private long qnaPw;
 	private long ref;
 	private long depth;
 	
-	public String getQnaPw() {
+	
+	public long getQnaPw() {
 		return qnaPw;
 	}
-	public void setQnaPw(String qnaPw) {
+	public void setQnaPw(long qnaPw) {
 		this.qnaPw = qnaPw;
 	}
 	public long getRef() {

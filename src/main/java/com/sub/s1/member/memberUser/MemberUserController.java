@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.sub.s1.board.qna.QnaDTO;
+
 
 @Controller
 @RequestMapping("/member/**")
@@ -66,8 +68,15 @@ public class MemberUserController {
 			mv.setViewName("common/result");
 		}
 		
+		return mv;	
+	}
+	
+	@GetMapping(value = "memberPage")
+	public ModelAndView getMemberPage(QnaDTO qnaDTO) throws Exception{
+		ModelAndView mv = new ModelAndView();
+		mv.addObject("dto", qnaDTO);
+		mv.setViewName("member/memberPage");
 		return mv;
-		
 	}
 	
 

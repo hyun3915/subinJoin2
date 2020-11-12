@@ -95,22 +95,19 @@
 <body>
 <c:import url="../template/header.jsp"></c:import>
 
-
-
 <div class="container">
 <div class="qna_title">
   <span id="qna" ><font color="333333">문의게시판</font></span>
 </div>
   <form id="frm" action="./qnaReply" method="post" enctype="multipart/form-data">
   	<input type="hidden" name="num" value="${param.num}">
-  	
   <table>
-  	<tr class="group" style="height:50px;">
+  	<tr class="group" style="height:70px;">
   		<td class="leftrow">제목</td>
   		<td><input style="height: 30px; width: 180px;" id="title" name="title" ></td>
   	</tr>
   	
-  	<tr class="group" style="height:50px;">
+  	<tr class="group" style="height:70px;">
   		<td class="leftrow">작성자</td>
   		<td><input readonly="readonly" style="height: 30px; width: 180px;" class="inputTypeText" value="${member.id}" id="writer" name="writer"></td>
   	</tr>
@@ -119,6 +116,11 @@
   		<td colspan="2" style="padding-left: 0px;">
   			<textarea class="form-control"  rows="5" id="contents" name ="contents"></textarea>
   		</td>
+  	</tr>
+  	
+  	<tr class="group" style="height: 70px;">
+  		<td class="leftrow">비밀번호</td>
+  		<td><input style="height: 40px;" value="${dto.qnaPw}" type="text" class="inputTypeText" id="qnaPw" name="qnaPw"></td>
   	</tr>
   	
   </table>

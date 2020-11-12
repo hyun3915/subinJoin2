@@ -54,10 +54,6 @@ public class QnaController {
 		ModelAndView mv = new ModelAndView();
 		List<BoardDTO> ar = qnaService.getList(pager);
 		
-		BoardDTO boardDTO = ar.get(0);
-		QnaDTO qnaDTO = (QnaDTO)boardDTO;
-		System.out.println(qnaDTO.getDepth());
-		
 		mv.addObject("board","qna");
 		mv.addObject("list",ar);
 		mv.addObject("pager",pager);
@@ -72,11 +68,14 @@ public class QnaController {
 		System.out.println("Qna One");
 		ModelAndView mv = new ModelAndView();
 		boardDTO = qnaService.getOne(boardDTO);
+		long cnt = qnaService.getCnt(boardDTO);
+		System.out.println(cnt);
 		
-		if(boardDTO != null) {
+		if(boardDTO != null || cnt!=0) {
 			mv.setViewName("qna/qnaSelect");
 			mv.addObject("dto", boardDTO);
 			mv.addObject("qna","qna");
+			mv.addObject("cnt", cnt);
 		}else {
 			mv.setViewName("common/result");
 			mv.addObject("msg", "No Data");
@@ -88,17 +87,17 @@ public class QnaController {
 	@GetMapping("qnaWrite")
 	public ModelAndView setInsert() throws Exception{
 		ModelAndView mv = new ModelAndView();
+		
 		mv.addObject("qna", "qna");
 		mv.setViewName("qna/qnaWrite");
 		return mv;
 	}
 	
 	@PostMapping("qnaWrite")
-	public ModelAndView setInsert(BoardDTO boardDTO) throws Exception{
-		
-		
+	public ModelAndView setInsert(QnaDTO qnaDTO) throws Exception{
+		System.out.println(qnaDTO.getQnaPw());
 		ModelAndView mv = new ModelAndView();
-		int result = qnaService.setInsert(boardDTO);
+		int result = qnaService.setInsert(qnaDTO);
 		String message = "작성 실패";
 		if(result>0) {
 			message = "작성되었습니다.";
@@ -114,15 +113,17 @@ public class QnaController {
 	@GetMapping("qnaReply")
 	public ModelAndView setReply() throws Exception{
 		ModelAndView mv = new ModelAndView();
+		
+		
 		mv.setViewName("qna/qnaReply");
 		mv.addObject("qna", "qna");
 		return mv;
 	}
 	
 	@PostMapping("qnaReply")
-	public ModelAndView setReply(BoardDTO boardDTO) throws Exception{
+	public ModelAndView setReply(QnaDTO qnaDTO) throws Exception{
 		ModelAndView mv = new ModelAndView();
-		int result = qnaService.setReply(boardDTO);
+		int result = qnaService.setReply(qnaDTO);
 		
 		String message = "답변 작성 실패";
 		

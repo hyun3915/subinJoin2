@@ -40,6 +40,10 @@ public class QnaService implements BoardService{
 		return fileName;
 	}
 	
+	public long getCnt(BoardDTO boardDTO) throws Exception{
+		return qnaDAO.getCnt(boardDTO);
+	}
+	
 
 	@Override
 	public int setInsert(BoardDTO boardDTO) throws Exception {
